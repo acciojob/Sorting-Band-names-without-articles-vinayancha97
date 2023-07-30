@@ -1,34 +1,18 @@
-//your code here
-const bands=['The Virupaksha Temple', 'Victoria Memorial', 'Tajmahal'];
+const bands = ['The Beatles', 'Led Zeppelin', 'Pink Floyd', 'Aerosmith'];
 
- function sortBandNames(bandNames) {
-    // Regular expression to match articles ('a', 'an', 'the') at the beginning of the band names
-    const articleRegex = /^(a|an|the)\s/i;
+// Define the strip function to remove common words from band names
+function strip(word) {
+const regex = /^(a |the |an )/i;
+return word.replace(regex, '').trim();
+}
 
-    return bandNames.sort((a, b) => {
-      // Remove articles from band names for comparison
-      const bandNameA = a.replace(articleRegex, '');
-      const bandNameB = b.replace(articleRegex, '');
+// Sort the bands array using the strip function to ignore common words
+const sortedBands = bands.sort((a, b) => (strip(a) > strip(b)) ? 1 : -1);
 
-      // Compare the band names without articles in lexicographic order
-      return bandNameA.localeCompare(bandNameB);
-    });
-  }
-
-  function displayBandNamesInUL(bandNames) {
-    const sortedBandNames = sortBandNames(bandNames);
-    const ulElement = document.getElementById("band");
-
-    // Clear existing contents of the ul element
-    ulElement.innerHTML = '';
-
-    // Generate and append li elements for each band name
-    sortedBandNames.forEach((bandName) => {
-      const liElement = document.createElement("li");
-      liElement.textContent = bandName;
-      ulElement.appendChild(liElement);
-    });
-  }
-
-  // Call the function to display the sorted band names inside the ul element
-  displayBandNamesInUL(bandNames);
+// Update the DOM with the sorted band names
+const bandList = document.getElementById('band');
+sortedBands.forEach(band => {
+const listItem = document.createElement('li');
+listItem.textContent = band;
+bandList.appendChild(listItem);
+});
